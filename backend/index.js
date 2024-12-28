@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
+const userRouter = require("./routes/user.route");
 
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -23,6 +24,9 @@ try {
 app.get("/", (req, res) => {
   res.send("<h1>Server is ready</h1>");
 });
+
+// use router
+app.use("/api/v1/auth", userRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: http://localhost:${port}`);
