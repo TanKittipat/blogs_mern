@@ -44,7 +44,7 @@ const SignUp = () => {
         title: "Registration",
         text: error?.response?.data?.message,
         showConfirmButton: false,
-        icon: "success",
+        icon: "error",
         position: "center",
       });
     }
