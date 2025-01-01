@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../contexts/auth.context";
+import AuthServices from "../services/auth.service";
+import Swal from "sweetalert2";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login, user: loggedInUser } = useAuthContext();
+
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate("/");
+    }
+  }, [loggedInUser]);
+
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -13,8 +24,31 @@ const SignIn = () => {
     setUser((user) => ({ ...user, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    navigate("/");
+  const handleSubmit = async () => {
+    try {
+      const res = await AuthServices.login(user.username, user.password);
+      if (res.status === 200) {
+        Swal.fire({
+          title: "Login",
+          text: res.data.message,
+          showConfirmButton: false,
+          icon: "success",
+          position: "center",
+        }).then(() => {
+          login(res.data);
+          setUser({ username: "", password: "" });
+          navigate("/");
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Registration",
+        text: error?.response?.data?.message,
+        showConfirmButton: false,
+        icon: "success",
+        position: "center",
+      });
+    }
   };
 
   return (
@@ -83,7 +117,10 @@ const SignIn = () => {
         </div>
         <div className="pt-4 flex gap-2 justify-end">
           <button
-            onClick={() => setUser({ username: "", password: "" })}
+            onClick={() => {
+              setUser({ username: "", password: "" });
+              navigate("/");
+            }}
             type="button"
             class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
           >

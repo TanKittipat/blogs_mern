@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../contexts/auth.context";
 import AuthServices from "../services/auth.service";
 import Swal from "sweetalert2";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { user: loggedInUser } = useAuthContext();
+
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate("/");
+    }
+  }, [loggedInUser]);
+
   const [user, setUser] = useState({
     username: "",
     password: "",
