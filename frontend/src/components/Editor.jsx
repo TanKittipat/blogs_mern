@@ -36,7 +36,7 @@ const Editor = forwardRef(({ value, onChange }, ref) => {
   };
 
   return (
-    <div className="contents h-full max-h-screen overflow-y-auto">
+    <div className="contents h-full max-h-[50vh] overflow-y-auto">
       <ReactQuill
         ref={quillRef}
         theme="snow"

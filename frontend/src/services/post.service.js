@@ -1,5 +1,5 @@
 import api from "./api";
-const postUrl = import.meta.env.VITE_BASE_URL + "posts";
+const postUrl = import.meta.env.VITE_BASE_URL + "/posts";
 
 const getAllPosts = async () => {
   return await api.get(postUrl);
@@ -10,11 +10,15 @@ const getPostById = async (id) => {
 };
 
 const createPost = async (post) => {
-  return await api.post(postUrl, post);
+  return await api.post(postUrl, post, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 const editPost = async (id, post) => {
-  return await api.put(postUrl + `/${id}`, post);
+  return await api.put(postUrl + `/${id}`, post, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 const deletePost = async (id) => {

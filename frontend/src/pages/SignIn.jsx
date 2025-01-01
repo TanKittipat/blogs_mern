@@ -52,7 +52,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[94vh] bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500">
+    <div className="flex items-center justify-center min-h-[87vh] bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500">
       <div class="max-w-md w-full space-y-3 bg-white rounded-lg px-8 py-10">
         <div>
           <h1 className="text-center text-3xl text-gray-700 mb-12 font-bold">
