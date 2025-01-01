@@ -1,6 +1,7 @@
 import { useState } from "react";
-import AuthServices from "../services/auth.service";
 import { useNavigate } from "react-router";
+import AuthServices from "../services/auth.service";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -17,11 +18,27 @@ const SignUp = () => {
   const handleSubmit = async () => {
     try {
       const res = await AuthServices.register(user.username, user.password);
-      if (res.status === 200) {
+      console.log(res.status);
+      if (res.status === 201) {
+        Swal.fire({
+          title: "Registration",
+          text: res.data.message,
+          showConfirmButton: false,
+          icon: "success",
+          position: "center",
+        });
         setUser({ username: "", password: "" });
         navigate("/login");
       }
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        title: "Registration",
+        text: error?.response?.data?.message,
+        showConfirmButton: false,
+        icon: "success",
+        position: "center",
+      });
+    }
   };
 
   return (
