@@ -30,6 +30,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/posts", postRouter);
 
+app.use("/uploads", express.static(__dirname + "/uploads"));
+
 app.listen(port, () => {
   console.log(`Server is running on port: http://localhost:${port}`);
 });

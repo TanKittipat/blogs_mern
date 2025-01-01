@@ -66,7 +66,7 @@ const Create = () => {
   };
 
   return (
-    <div className="flex items-center pt-6 justify-center min-h-[87vh] bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500">
+    <div className="flex items-center py-6 justify-center min-h-[87vh] bg-gradient-to-r from-rose-500 via-violet-500 to-sky-500">
       <div className="max-w-3xl w-full space-y-6 bg-white rounded-lg px-8 py-10 shadow-lg">
         <h1 className="text-center text-3xl text-gray-700 mb-8 font-bold">
           Create New Post
