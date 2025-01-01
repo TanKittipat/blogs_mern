@@ -3,9 +3,16 @@ import Swal from "sweetalert2";
 import PostServices from "../services/post.service";
 import Editor from "../components/Editor";
 import { useNavigate, useParams } from "react-router";
+import { useAuthContext } from "../contexts/auth.context";
 
 const EditPage = () => {
   const { id } = useParams();
+  const { user: loggedInUser } = useAuthContext();
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate("/login");
+    }
+  }, [loggedInUser]);
   const [post, setPost] = useState({
     title: "",
     summary: "",
@@ -14,32 +21,29 @@ const EditPage = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await PostServices.getPostById(id);
-        if (res.status === 200) {
-          const { title, summary, content } = res.data;
-          setPost({
-            title: title,
-            summary: summary,
-            content: content,
-          });
-          setContent(content);
-        }
-      } catch (error) {
-        Swal.fire({
-          title: "Fetching data",
-          text: error?.response?.data?.message,
-          showConfirmButton: false,
-          icon: "error",
-          position: "center",
-        }).then(() => {
+    if (loggedInUser) {
+      const fetchData = async () => {
+        try {
+          const res = await PostServices.getPostById(id);
+          if (res.status === 200) {
+            if (loggedInUser.id !== res.data.author._id) {
+              navigate("/");
+            }
+            const { title, summary, content } = res.data;
+            setPost({
+              title: title,
+              summary: summary,
+              content: content,
+            });
+            setContent(content);
+          }
+        } catch (error) {
           navigate("/");
-        });
-      }
-    };
-    fetchData();
-  }, [id]);
+        }
+      };
+      fetchData();
+    }
+  }, [id, loggedInUser]);
 
   const [content, setContent] = useState("");
 

@@ -1,10 +1,17 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Editor from "../components/Editor";
 import { useNavigate } from "react-router";
 import PostServices from "../services/post.service";
 import Swal from "sweetalert2";
+import { useAuthContext } from "../contexts/auth.context";
 
 const Create = () => {
+  const { user: loggedInUser } = useAuthContext();
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate("/login");
+    }
+  }, [loggedInUser]);
   const [post, setPost] = useState({
     title: "",
     summary: "",
