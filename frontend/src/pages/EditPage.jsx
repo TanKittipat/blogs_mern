@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
-import Editor from "../components/Editor";
-import { useNavigate } from "react-router";
-import PostServices from "../services/post.service";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
+import PostServices from "../services/post.service";
+import Editor from "../components/Editor";
+import { useNavigate, useParams } from "react-router";
 
-const Create = () => {
+const EditPage = () => {
+  const { id } = useParams();
   const [post, setPost] = useState({
     title: "",
     summary: "",
@@ -12,11 +13,39 @@ const Create = () => {
     file: null,
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await PostServices.getPostById(id);
+        if (res.status === 200) {
+          const { title, summary, content } = res.data;
+          setPost({
+            title: title,
+            summary: summary,
+            content: content,
+          });
+          setContent(content);
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Fetching data",
+          text: error?.response?.data?.message,
+          showConfirmButton: false,
+          icon: "error",
+          position: "center",
+        }).then(() => {
+          navigate("/");
+        });
+      }
+    };
+    fetchData();
+  }, [id]);
+
   const [content, setContent] = useState("");
 
-  const editorRef = useRef(null);
-
   const navigate = useNavigate();
+
+  const editorRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,11 +68,11 @@ const Create = () => {
       data.set("summary", post.summary);
       data.set("content", post.content);
       data.set("file", post.file);
-      const res = await PostServices.createPost(data);
+      const res = await PostServices.editPost(id, data);
       console.log(res);
-      if (res.status === 201) {
+      if (res.status === 200) {
         Swal.fire({
-          title: "Create post",
+          title: "Edit post",
           text: res.data.message,
           showConfirmButton: false,
           icon: "success",
@@ -51,12 +80,12 @@ const Create = () => {
         }).then(() => {
           setContent("");
           setPost({ title: "", summary: "", content: "", file: null });
-          navigate("/");
+          navigate(`/post/${id}`);
         });
       }
     } catch (error) {
       Swal.fire({
-        title: "Create post",
+        title: "Edit post",
         text: error?.response?.data?.message,
         showConfirmButton: false,
         icon: "error",
@@ -69,7 +98,7 @@ const Create = () => {
     <div className="flex items-center py-6 justify-center min-h-[87vh] bg-gradient-to-r from-rose-500 via-violet-500 to-sky-500">
       <div className="max-w-3xl w-full space-y-6 bg-white rounded-lg px-8 py-10 shadow-lg">
         <h1 className="text-center text-3xl text-gray-700 mb-8 font-bold">
-          Create New Post
+          Edit Post
         </h1>
 
         {/* Title */}
@@ -135,7 +164,7 @@ const Create = () => {
             onClick={() => {
               setPost({ title: "", summary: "", content: "", file: null });
               setContent("");
-              navigate("/");
+              navigate(`/post/${id}`);
             }}
             type="button"
             className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
@@ -155,4 +184,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default EditPage;

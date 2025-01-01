@@ -5,6 +5,7 @@ import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import Create from "../pages/Create";
 import PostPage from "../pages/PostPage";
+import EditPage from "../pages/EditPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       { path: "login", element: <SignIn /> },
       { path: "create", element: <Create /> },
       { path: "post/:id", element: <PostPage /> },
+      { path: "edit/:id", element: <EditPage /> },
     ],
   },
 ]);
