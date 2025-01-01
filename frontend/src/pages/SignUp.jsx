@@ -1,24 +1,36 @@
 import { useState } from "react";
+import AuthServices from "../services/auth.service";
+import { useNavigate } from "react-router";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
-    username: "", password: ""
-  })
+    username: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((user) => ({ ...user, [name]: value }))
-  }
+    setUser((user) => ({ ...user, [name]: value }));
+  };
 
-  const handleSubmit = () => {
-
-  }
+  const handleSubmit = async () => {
+    try {
+      const res = await AuthServices.register(user.username, user.password);
+      if (res.status === 200) {
+        setUser({ username: "", password: "" });
+        navigate("/login");
+      }
+    } catch (error) {}
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[94vh] bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500">
       <div class="max-w-md w-full space-y-3 bg-white rounded-lg px-8 py-10">
         <div>
-          <h1 className="text-center text-3xl text-gray-700 mb-12 font-bold">Register</h1>
+          <h1 className="text-center text-3xl text-gray-700 mb-12 font-bold">
+            Register
+          </h1>
         </div>
         <div class="relative">
           <input
@@ -77,10 +89,21 @@ const SignUp = () => {
           </div>
         </div>
         <div className="pt-4 flex gap-2 justify-end">
-          <button onClick={() => setUser({ username: "", password: "" })} type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
+          <button
+            onClick={() => {
+              setUser({ username: "", password: "" });
+              navigate("/");
+            }}
+            type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+          >
             Cancel
           </button>
-          <button onClick={handleSubmit} type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 focus:outline-none focus:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none">
+          <button
+            onClick={handleSubmit}
+            type="button"
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 focus:outline-none focus:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none"
+          >
             Register
           </button>
         </div>
