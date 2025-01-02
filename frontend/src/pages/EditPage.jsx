@@ -38,6 +38,7 @@ const EditPage = () => {
             setContent(content);
           }
         } catch (error) {
+          console.log(error);
           navigate("/");
         }
       };
