@@ -1,4 +1,5 @@
 import { useAuthContext } from "../contexts/auth.context";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logout } = useAuthContext();
@@ -47,7 +48,27 @@ const Navbar = () => {
               </a>
               <button
                 class="font-medium text-rose-500 focus:outline-none"
-                onClick={() => logout()}
+                onClick={() => {
+                  Swal.fire({
+                    title: "Logout",
+                    text: "Do you want to logout?",
+                    icon: "question",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    confirmButtonText: "Yes",
+                    confirmButtonColor: "#ff0054",
+                    cancelButtonColor: "#8d99ae",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      logout();
+                      Swal.fire({
+                        title: "Logout",
+                        text: "logout successfully!",
+                        icon: "success",
+                      });
+                    }
+                  });
+                }}
               >
                 logout({user.username})
               </button>
