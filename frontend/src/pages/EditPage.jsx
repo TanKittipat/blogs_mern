@@ -70,7 +70,7 @@ const EditPage = () => {
       const data = new FormData();
       data.set("title", post.title);
       data.set("summary", post.summary);
-      data.set("content", post.content);
+      data.set("content", content);
       data.set("file", post.file);
       const res = await PostServices.editPost(id, data);
       console.log(res);

@@ -44,7 +44,7 @@ const Create = () => {
       const data = new FormData();
       data.set("title", post.title);
       data.set("summary", post.summary);
-      data.set("content", post.content);
+      data.set("content", content);
       data.set("file", post.file);
       const res = await PostServices.createPost(data);
       console.log(res);
