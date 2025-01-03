@@ -83,7 +83,10 @@ const PostPage = () => {
             </p>
             <div className="mb-2">
               <span className="font-semibold">
-                By <a className="text-sky-600">@{post.author.username}</a>
+                By{" "}
+                <a href={`/author/${post.author._id}`} className="text-sky-600">
+                  @{post.author.username}
+                </a>
               </span>
             </div>
             {user && user.id === post.author._id && (

@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router";
 import { useAuthContext } from "../contexts/auth.context";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
   return (
     <header class="sticky top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-md py-3 shadow-md">
       <nav class="max-w-[95vw] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between">
@@ -71,6 +73,17 @@ const Navbar = () => {
                 }}
               >
                 logout({user.username})
+              </button>
+              <button
+                onClick={() => {
+                  navigate(`/author/${user.id}`);
+                }}
+              >
+                <img
+                  class="inline-block size-[38px] rounded-full"
+                  src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                  alt="Posts"
+                />
               </button>
             </div>
           ) : (

@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import PostServices from "../services/post.service";
 import Swal from "sweetalert2";
 import Post from "../components/Post";
+import { useParams } from "react-router";
 
-const Home = () => {
+const PostByAuthor = () => {
+  const { id } = useParams();
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await PostServices.getAllPosts();
+        const res = await PostServices.getByAuthor(id);
         if (res.status === 200) {
           setPosts(res.data);
         }
@@ -30,8 +32,8 @@ const Home = () => {
     return (
       <div className="min-h-[87vh] flex items-center py-6 overflow-y-auto justify-center bg-gradient-to-r from-rose-500 via-violet-500 to-sky-500">
         <div className="w-full max-w-3xl space-y-4 px-4 py-8">
-          <h1 className="text-white text-3xl font-semibold text-center">
-            There are no post yet!
+          <h1 className="text-white font-semibold text-3xl text-center">
+            You have no post!
           </h1>
         </div>
       </div>
@@ -50,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default PostByAuthor;

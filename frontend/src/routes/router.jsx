@@ -6,6 +6,7 @@ import SignIn from "../pages/SignIn";
 import Create from "../pages/Create";
 import PostPage from "../pages/PostPage";
 import EditPage from "../pages/EditPage";
+import PostByAuthor from "../pages/PostByAuthor";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "create", element: <Create /> },
       { path: "post/:id", element: <PostPage /> },
       { path: "edit/:id", element: <EditPage /> },
+      { path: "/author/:id", element: <PostByAuthor /> },
     ],
   },
 ]);

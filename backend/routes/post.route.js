@@ -31,4 +31,7 @@ router.put(
   postController.updatePost
 );
 
+// get posts by user id
+router.get("/author/:id", postController.getPostsByAuthor);
+
 module.exports = router;

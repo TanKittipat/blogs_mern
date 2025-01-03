@@ -49,30 +49,34 @@ function checkFileType(file, cb) {
 // Upload file to Firebase Storage
 async function uploadToFirebase(req, res, next) {
   if (!req.file) {
-    return res.status(400).json({ message: "Image is required!" });
-  }
-
-  const storageRef = ref(firebaseStorage, `uploads/${req.file.originalname}`);
-
-  const metadata = {
-    contentType: req.file.mimetype,
-  };
-
-  try {
-    // uploading
-    const snapshot = await uploadBytesResumable(
-      storageRef,
-      req.file.buffer,
-      metadata
-    );
-    req.file.firebaseUrl = await getDownloadURL(snapshot.ref);
-    console.log(req.file.firebaseUrl);
+    // return res.status(400).json({ message: "Image is required!" });
     next();
-  } catch (error) {
-    res.status(500).json({
-      message:
-        "An error occurred while uploading file to firebase!" || error.message,
-    });
+    // return;
+  } else {
+    const storageRef = ref(firebaseStorage, `uploads/${req.file.originalname}`);
+
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+
+    try {
+      // uploading
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        req.file.buffer,
+        metadata
+      );
+      req.file.firebaseUrl = await getDownloadURL(snapshot.ref);
+      console.log(req.file.firebaseUrl);
+      next();
+      // return;
+    } catch (error) {
+      res.status(500).json({
+        message:
+          "An error occurred while uploading file to firebase!" ||
+          error.message,
+      });
+    }
   }
 }
 

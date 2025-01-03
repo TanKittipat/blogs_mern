@@ -20,7 +20,10 @@ const Post = ({ _id, title, summary, cover, author, createdAt }) => {
           <p class="mt-1 text-gray-500">{summary}</p>
           <div class="mt-5 sm:mt-auto">
             <p class="text-xs text-gray-500">
-              {author.username} : {format(createdAt, "dd MMMM yyyy HH:mm")}
+              <a href={`/author/${author._id}`} className="hover:text-sky-600">
+                {author.username}
+              </a>{" "}
+              : {format(createdAt, "dd MMMM yyyy HH:mm")}
             </p>
           </div>
         </div>

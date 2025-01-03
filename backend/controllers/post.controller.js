@@ -95,3 +95,18 @@ exports.updatePost = async (req, res) => {
     });
   }
 };
+
+exports.getPostsByAuthor = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const posts = await PostModel.find({ author: id })
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20);
+    res.status(200).json(posts);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something error occurred while fetching post!" });
+  }
+};
