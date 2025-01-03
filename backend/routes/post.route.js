@@ -2,10 +2,16 @@ const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/post.controller");
 const authJwt = require("../middlewares/auth.middleware");
-const { upload } = require("../middlewares/file.middleware");
+const { upload, uploadToFirebase } = require("../middlewares/file.middleware");
 
 // create new post
-router.post("/", authJwt.verifyToken, upload, postController.createPost);
+router.post(
+  "/",
+  authJwt.verifyToken,
+  upload,
+  uploadToFirebase,
+  postController.createPost
+);
 
 // get all posts
 router.get("/", postController.getAllPosts);
@@ -17,6 +23,12 @@ router.get("/:id", postController.getPostById);
 router.delete("/:id", authJwt.verifyToken, postController.deletePost);
 
 // update post by id
-router.put("/:id", authJwt.verifyToken, upload, postController.updatePost);
+router.put(
+  "/:id",
+  authJwt.verifyToken,
+  upload,
+  uploadToFirebase,
+  postController.updatePost
+);
 
 module.exports = router;

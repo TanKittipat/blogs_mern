@@ -1,14 +1,13 @@
 import { format } from "date-fns";
 
 const Post = ({ _id, title, summary, cover, author, createdAt }) => {
-  const baseUrl = import.meta.env.VITE_BASE_PHOTO;
   return (
     <div class="bg-white border rounded-xl shadow-sm sm:flex">
       <div class="shrink-0 relative w-full rounded-t-xl overflow-hidden pt-[40%] sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
         <a href={`/post/${_id}`}>
           <img
             class="size-full absolute top-0 start-0 object-cover"
-            src={`${baseUrl}/${cover}`}
+            src={`${cover}`}
             alt={title}
           />
         </a>

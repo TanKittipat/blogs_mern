@@ -2,7 +2,6 @@ const PostModel = require("../models/post.model");
 
 // create new post
 exports.createPost = async (req, res) => {
-  const { path } = req.file;
   const author = req.userId;
   const { title, summary, content } = req.body;
   if (!title || !summary || !content) {
@@ -12,7 +11,7 @@ exports.createPost = async (req, res) => {
     title,
     summary,
     content,
-    cover: path,
+    cover: req.file.firebaseUrl,
     author,
   });
 
@@ -86,7 +85,7 @@ exports.updatePost = async (req, res) => {
     post.summary = summary;
     post.content = content;
     if (req.file) {
-      post.cover = req.file.path;
+      post.cover = req.file.firebaseUrl;
     }
     await post.save();
     res.status(200).json({ message: "Post updated.", post });
